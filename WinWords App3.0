@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>WinWords with Live Logs</title>
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Inter font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
   <style>
     body {
@@ -30,14 +28,15 @@
 
   <div id="root" class="min-h-screen flex items-center justify-center p-4"></div>
 
-  <!-- React + ReactDOM + Babel -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- App code (JSX via Babel) -->
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
+
+    // This placeholder will be replaced by Netlify's build process.
+    const GROQ_API_KEY = "NETLIFY_WILL_REPLACE_THIS";
 
     function App() {
       const [messages, setMessages] = useState([]);
@@ -163,38 +162,55 @@ Generate ${count} natural, conversational rewrites that sound human and match th
         }
         controllerRef.current = new AbortController();
         setIsLoading(true);
-        log(`🚀 Fetching suggestions via Netlify Function for: "${text}" with tone "${getToneDesc()}" and emotiSense=${emotiSense}`);
+        log(`🚀 Fetching suggestions via Groq API for: "${text}" with tone "${getToneDesc()}" and emotiSense=${emotiSense}`);
 
         try {
-          const prompt = buildPrompt(text, getToneDesc(), emotiSense, 2);
+          const apiKey = GROQ_API_KEY;
+          if (!apiKey || apiKey === "NETLIFY_WILL_REPLACE_THIS") {
+            log("❌ Groq API key missing or placeholder. Cannot fetch.");
+            setSuggestions([{ label: "API Key Missing", text: "The API key was not set during deployment." }]);
+            setIsLoading(false);
+            return;
+          }
 
-          log(`📡 Sending request to Netlify Function with model: ${modelId}`);
+          const prompt = buildPrompt(text, getToneDesc(), emotiSense, 2);
+          const payload = {
+            model: modelId,
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.7,
+            max_tokens: 400,
+            top_p: 1,
+            stream: false,
+          };
+
+          log(`📡 Sending request to Groq with model: ${modelId}`);
           const startTime = Date.now();
 
-          const res = await fetch("/.netlify/functions/groq-proxy", {
+          const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": "Bearer " + apiKey,
             },
-            body: JSON.stringify({ prompt: prompt }),
+            body: JSON.stringify(payload),
             signal: controllerRef.current.signal,
           });
 
           const endTime = Date.now();
           const responseTime = endTime - startTime;
-          log(`⚡ Function response received in ${responseTime}ms`);
+          log(`⚡ Groq API response received in ${responseTime}ms`);
 
           if (!res.ok) {
             const txt = await res.text();
-            log(`❌ Function error ${res.status}: ${txt}`);
-            setSuggestions([{ label: "Function Error", text: `Error ${res.status}: ${txt.substring(0, 100)}` }]);
+            log(`❌ Groq API error ${res.status}: ${txt}`);
+            setSuggestions([{ label: "API Error", text: `Error ${res.status}: ${txt.substring(0, 100)}` }]);
             setIsLoading(false);
             return;
           }
 
           const json = await res.json();
           const raw = json?.choices?.[0]?.message?.content ?? json?.choices?.[0]?.text;
-          log(`📝 Raw response from Function: ${raw.substring(0, 200)}${raw.length > 200 ? "..." : ""}`);
+          log(`📝 Raw response from Groq: ${raw.substring(0, 200)}${raw.length > 200 ? "..." : ""}`);
 
           // Log token usage if available
           if (json.usage) {
@@ -252,7 +268,9 @@ Generate ${count} natural, conversational rewrites that sound human and match th
           }, 800); // Increased delay to 800ms for more typing
         } else {
           setSuggestions([]);
-          log(`⏸️ Skipping fetch - needs more words (current: ${wordCount} words, ${trimmedInput.length} chars)`);
+          if (trimmedInput) {
+             log(`⏸️ Skipping fetch - needs more words (current: ${wordCount} words, ${trimmedInput.length} chars)`);
+          }
         }
         
         return () => clearTimeout(debounceTimerRef.current);
@@ -277,9 +295,16 @@ Generate ${count} natural, conversational rewrites that sound human and match th
         setInstaHaActive(true);
 
         try {
+          const apiKey = GROQ_API_KEY;
+          if (!apiKey || apiKey === "NETLIFY_WILL_REPLACE_THIS") {
+            log("❌ Groq API key missing or placeholder. Cannot fetch joke.");
+            setInput("Please set your Groq API key to get InstaHa jokes.");
+            setInstaHaActive(false);
+            return;
+          }
+
           log("🤣 Fetching AI-generated InstaHa joke...");
           
-          // Add randomness to the prompt to get different jokes
           const jokeTypes = [
             "Tell me a witty one-liner joke",
             "Give me a clever pun or wordplay joke", 
@@ -294,19 +319,30 @@ Generate ${count} natural, conversational rewrites that sound human and match th
           const randomType = jokeTypes[Math.floor(Math.random() * jokeTypes.length)];
           const randomSeed = Math.floor(Math.random() * 10000);
           
-          const prompt = `${randomType}. Keep it clean, under 20 words, and make it original. Random seed: ${randomSeed}`;
+          const payload = {
+            model: modelId,
+            messages: [{ 
+              role: "user", 
+              content: `${randomType}. Keep it clean, under 20 words, and make it original. Random seed: ${randomSeed}` 
+            }],
+            temperature: 1.0, // Maximum creativity
+            max_tokens: 60,
+            top_p: 0.9,
+            stream: false,
+          };
 
-          const res = await fetch("/.netlify/functions/groq-proxy", {
+          const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": "Bearer " + apiKey,
             },
-            body: JSON.stringify({ prompt: prompt }),
+            body: JSON.stringify(payload),
           });
 
           if (!res.ok) {
             const txt = await res.text();
-            log(`❌ Function error ${res.status}: ${txt}`);
+            log(`❌ Groq API error ${res.status}: ${txt}`);
             setInstaHaActive(false);
             return;
           }
@@ -445,7 +481,7 @@ Generate ${count} natural, conversational rewrites that sound human and match th
                     }`}
                     title="InstaHa!"
                   >
-                    🎭
+                  🎭
                   </button>
                 </div>
 
@@ -491,7 +527,7 @@ Generate ${count} natural, conversational rewrites that sound human and match th
               className="bg-black text-green-400 font-mono text-xs rounded-xl p-3 w-[320px] h-[760px] overflow-y-auto whitespace-pre-line"
               style={{ whiteSpace: "pre-wrap" }}
             >
-              <div className="font-bold mb-2 text-yellow-400">🔧 WinWords Debug Panel (Netlify Function)</div>
+              <div className="font-bold mb-2 text-yellow-400">🔧 WinWords Debug Panel (Groq API)</div>
               <div className="text-gray-400 mb-3 text-xs">Model: {modelId}</div>
               {logs.map((logMsg, i) => (
                 <div key={i} className="mb-1">{logMsg}</div>
@@ -508,3 +544,5 @@ Generate ${count} natural, conversational rewrites that sound human and match th
   </script>
 </body>
 </html>
+
+Sources
