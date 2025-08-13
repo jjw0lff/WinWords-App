@@ -72,7 +72,7 @@
       ];
 
       // Replace with your actual Groq API key
-      const getApiKey = () => "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";
+      const getApiKey = 
 
       const log = (msg) => {
         const timestamp = new Date().toLocaleTimeString();
