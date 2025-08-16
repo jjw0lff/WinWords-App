@@ -1,0 +1,87 @@
+PROVISIONAL PATENT APPLICATION
+TITLE: System and Method for Fact-Preserving, Emotionally Intelligent Communication Enhancement
+INVENTORS: Joshua James Wolff, Mattie Fuqua Wolff
+ABSTRACT
+A system and method for real-time, on-device communication enhancement is disclosed. The system improves empathy and clarity while guaranteeing the preservation of factual accuracy in digital text. The invention comprises five core modules: (1) an Intent Preservation Engine™ that identifies and locks factually significant entities such as dates, monetary amounts, and contractual terms to prevent their alteration; (2) an Empathy Delta Scoring™ system that quantifies communication improvements across multiple dimensions including clarity, emotional tone, cultural sensitivity, accessibility, and compliance; (3) an Adaptive Context Horizon™ that dynamically adjusts the processing window based on the emotional volatility of a conversation; (4) a Resource Governor™ that ensures sub-200ms response times and low memory usage through graceful degradation of processing complexity; and (5) a Human-in-the-Loop Enforcement™ mechanism that requires explicit user approval for all generated suggestions, ensuring user control and authenticity. The entire system is designed to operate on-device, ensuring privacy and offline functionality, and includes enterprise-grade features for analytics and regulatory compliance verification.
+FIELD OF THE INVENTION
+This invention pertains to the field of artificial intelligence systems for digital communication enhancement. More specifically, it relates to on-device text processing systems that preserve factual accuracy, improve empathy, enforce ethical and compliance safeguards, and ensure accessibility under strict privacy and real-time performance constraints.
+BACKGROUND OF THE INVENTION
+Digital communication is the dominant mode of modern interaction, yet the tools designed to assist it are fundamentally deficient. Current writing assistants, such as Grammarly (US Patent 10,642,934), focus primarily on grammar and spelling, are dependent on cloud connectivity which introduces latency, and lack any mechanism to understand or improve the emotional tone of a message. Other tools like Google Smart Reply (US Patent 9,548,050) offer templated, context-aware responses but do not allow for personalized expression and fail to preserve factual integrity.
+These technical and ethical deficiencies lead to significant social and business consequences, including miscommunication-driven workplace conflicts, relationship trauma, cultural misunderstandings, and regulatory compliance failures. A critical, unaddressed problem is that AI rewriting tools often alter the meaning of a message by inadvertently changing critical facts like dates, monetary amounts, or contractual commitments, creating significant legal and financial liability.
+Furthermore, existing systems lack the capability to provide measurable feedback on communication effectiveness, enforce enterprise-specific compliance rules (e.g., HIPAA, SOX), or offer dignified communication assistance for neurodivergent individuals. There exists a clear and unmet need for a universal, privacy-first communication assistant that acts as an "autocorrect for empathy and compliance," enhancing the tone and impact of a user's words in real-time without ever changing the core facts.
+SUMMARY OF THE INVENTION
+The present invention, a system and method branded as WinWords™, overcomes the limitations of prior art by providing an integrated, on-device communication enhancement engine built on five synergistic innovations:
+ * Intent Preservation Engine™: A core module that programmatically identifies, extracts, and "locks" factually significant entities (e.g., dates, times, names, monetary amounts, contractual terms) within a user's text. This engine applies hard constraints during the AI-powered variant generation process to guarantee that these protected entities remain unaltered, thereby eliminating the risk of factual distortion.
+ * Empathy Delta Scoring™: A proprietary framework that produces a multi-factor score to quantify the improvement of a communication variant. This score is a weighted composite of dimensions including Clarity (e.g., reduced ambiguity), Emotional Appropriateness (tone alignment), Cultural Sensitivity, Accessibility (e.g., simplicity for neurodivergent users), and Compliance (adherence to regulatory filters). This provides users and organizations with a measurable KPI for communication effectiveness.
+ * Adaptive Context Horizon™: A dynamic context management system that optimizes performance and accuracy by adjusting the amount of conversational history it analyzes. Based on a real-time assessment of emotional volatility, the context window expands for nuanced, emotionally charged conversations and shrinks for simple, transactional messages.
+ * Resource Governor with Graceful Degradation™: An integrated performance management system that continuously monitors device resources such as battery, thermal state, and memory. It ensures a consistent sub-200ms user experience by automatically and progressively degrading the processing method from full neural networks to reduced-complexity models, and finally to template-based fallbacks, all while maintaining the core guarantee of intent preservation.
+ * Human-in-the-Loop Enforcement™: A foundational design principle ensuring the user always remains in control. The system presents generated variants through a clear user interface and requires explicit user selection before any text is modified or sent. This prevents autonomous AI actions and preserves the user's authentic voice and final authority.
+The system is designed to integrate across platforms via standard, public APIs (e.g., iOS Keyboard Extensions, Android Input Method Service) and operates entirely on-device to ensure user privacy and offline functionality.
+BRIEF DESCRIPTION OF THE DRAWINGS
+Figure 1: A system architecture diagram illustrating the interaction between the five core modules of the invention.
+Figure 2: A flowchart detailing the process of the Intent Preservation Engine™, from entity detection to constraint application and final verification.
+Figure 3: A diagram illustrating the Empathy Delta Scoring™ framework, showing the weighted dimensions and the calculation of a composite score.
+Figure 4: A conceptual diagram of the Adaptive Context Horizon™, showing the context window dynamically resizing in response to conversational emotional volatility.
+Figure 5: A state diagram for the Resource Governor™, illustrating the triggers for graceful degradation between processing modes.
+Figure 6: A user interface mockup embodying the Human-in-the-Loop Enforcement™ principle, showing the presentation of variants for user selection.
+Figure 7: A mockup of an enterprise analytics dashboard, displaying aggregated Empathy Delta scores and compliance metrics for a team.
+DETAILED DESCRIPTION OF THE INVENTION
+The system and method of the present invention provide a comprehensive solution for enhancing digital communication with emotional intelligence and factual integrity.
+1. Intent Preservation Engine™
+The Intent Preservation Engine™ is the system's foundational guardrail. Its operation comprises three stages:
+a. Detection: Upon receiving user text input, the engine uses a combination of regular expressions (regex) and lightweight semantic analysis to identify and tag protected entities. These entities include, but are not limited to, dates and times (e.g., "3 PM", "10/25/2025"), monetary amounts (e.g., "$5,000", "€100"), specific names of people or organizations, and contractual phrases (e.g., "net 30", "exclusive license").
+b. Constraint Application: During the generation of alternative phrasings by the empathy enhancement processor, these tagged entities are treated as immutable tokens. The AI model's decoding process is constrained, for example via a copy-mask or constrained beam search, to ensure these specific tokens are copied verbatim into any generated variant.
+c. Verification: As a final check, each generated variant is compared against the original extracted entities. Any variant that inadvertently alters or omits a protected entity is discarded, ensuring only factually identical options are presented to the user.
+2. Empathy Delta Scoring™
+The Empathy Delta Scoring™ system provides measurable feedback. In a preferred embodiment, it calculates a score based on five weighted dimensions:
+a. Clarity (25% weight): Measures readability, structural simplicity, and reduction of jargon or ambiguity.
+b. Emotional Appropriateness (30% weight): Assesses the alignment of the variant's tone with the conversational context and intended emotional impact.
+c. Cultural Sensitivity (20% weight): Evaluates adaptation for formality, directness, and other norms for cross-cultural contexts.
+d. Accessibility (15% weight): Scores the variant's suitability for neurodivergent audiences, such as providing clear, direct language for individuals with autism spectrum disorders or structured formatting for ADHD.
+e. Compliance (10% weight): Verifies adherence to pre-configured enterprise or regulatory policies.
+These weights are configurable. The final score is presented to the user with a brief explanation, such as "This option is clearer and more professional".
+3. Adaptive Context Horizon™
+To balance performance with contextual understanding, this module analyzes the emotional trajectory of the preceding conversation (e.g., the last 5-10 messages). It calculates a volatility score by measuring the vector distance between the emotional sentiment of consecutive messages.
+ * A low volatility score (stable, transactional chat) causes the context window to shrink (e.g., to 0.3x a base window of 512 tokens), conserving processing power.
+ * A high volatility score (escalating, emotionally complex chat) causes the context window to expand (e.g., to 2.0x the base window), providing the AI with more information to generate a nuanced and appropriate response.
+4. Resource Governor™ with Graceful Degradation
+This module ensures the system never impedes the user's ability to type by enforcing a strict latency budget (e.g., a 95th percentile target of <200ms). It continuously monitors device state:
+ * Normal State: Utilizes a full, quantized neural network for generating variants.
+ * Resource Constraint Detected (e.g., battery <15%, high thermal state): Automatically switches to a reduced-complexity model or a template-enhanced approach that combines AI with pre-written structures.
+ * Critical State: Falls back to a template-only mode that slots protected entities into safe, pre-approved sentence structures.
+   This tiered approach guarantees a response within the latency budget, with the highest possible quality available under the current device constraints.
+5. Human-in-the-Loop Enforcement™
+The system presents 2-3 of the highest-scoring, factually-verified variants to the user in a non-intrusive UI overlay. No change is ever made automatically. The user must perform an explicit action—such as a tap or a key press—to select a variant, which then replaces their original text. This selection is logged (without raw text for privacy) to personalize the user's style profile over time, improving future suggestions.
+Platform Integration and Enterprise Features
+The system is designed for universal deployment through standard, publicly documented OS APIs, primarily as a custom keyboard (via InputMethodService on Android and UIInputViewController on iOS). For enterprise customers, the system includes a compliance shield with configurable filters for regulations like HIPAA and SOX, along with a secure, on-device audit trail to log compliance-related communication events.
+CLAIMS
+What is claimed is:
+ * A system for communication enhancement comprising:
+   a. a processor and a memory storing instructions;
+   b. an intent preservation engine configured to identify one or more factually significant entities within a text input and apply a processing constraint that prevents modification of said entities;
+   c. an empathy enhancement processor configured to generate one or more alternative text variants of the text input, subject to the constraint from the intent preservation engine;
+   d. an empathy delta scoring system configured to calculate a multi-dimensional improvement score for each alternative text variant; and
+   e. a user interface configured to present said alternative text variants to a user and replace the text input with a variant only upon receiving an explicit user selection;
+   f. wherein all processing occurs on-device under a pre-defined latency target.
+ * The system of Claim 1, wherein the factually significant entities include at least one of: a date, a time, a monetary amount, a proper name, a quantity, or a contractual term.
+ * The system of Claim 1, wherein the multi-dimensional improvement score is a weighted composite of scores from at least three of the following dimensions: clarity, emotional appropriateness, cultural sensitivity, accessibility, and compliance.
+ * The system of Claim 1, further comprising an adaptive context horizon module configured to analyze emotional volatility within a conversation history and dynamically adjust a context window size for the empathy enhancement processor.
+ * The system of Claim 4, wherein emotional volatility is measured as a vector distance between sentiment representations of consecutive messages in the conversation history.
+ * The system of Claim 1, further comprising a resource governor configured to monitor device resources including battery level and thermal state, and to select a processing mode from a plurality of modes with varying complexity to maintain the pre-defined latency target.
+ * The system of Claim 6, wherein the processing modes include at least a full neural network mode, a reduced complexity model mode, and a template-based fallback mode.
+ * The system of Claim 1, wherein the empathy enhancement processor utilizes quantized neural networks with a total on-device storage footprint of less than 50 megabytes.
+ * The system of Claim 1, wherein the pre-defined latency target is a 95th percentile processing time of less than 200 milliseconds.
+ * The system of Claim 1, further comprising a regulatory compliance filter configured to identify and flag text within a variant that violates a pre-defined policy, said policy relating to at least one of HIPAA, SOX, or PCI-DSS regulations.
+ * The system of Claim 10, further comprising a secure audit trail module configured to generate a log of compliance-related events.
+ * The system of Claim 1, wherein the user interface is provided as part of a system-level keyboard through an Input Method Service on an Android operating system or a Keyboard Extension on an iOS operating system.
+ * A method for enhancing digital communication, the method comprising:
+   a. receiving a text input from a user within an application;
+   b. identifying, via a processor, one or more factually significant entities within the text input;
+   c. generating one or more alternative text variants of the text input, wherein said generation is subject to a constraint that programmatically prevents the modification of the identified factually significant entities;
+   d. calculating a quantitative improvement score for each of the one or more alternative text variants based on a multi-dimensional rubric;
+   e. displaying the one or more alternative text variants to the user via a graphical user interface; and
+   f. upon receiving an explicit user selection of a specific variant, replacing the original text input with the selected variant within the application.
+ * The method of Claim 13, wherein the generating and calculating steps are performed entirely on the user's device in less than 200 milliseconds.
+ * The method of Claim 13, further comprising:
+   a. prior to generating variants, assessing an emotional volatility of a preceding conversation; and
+   b. adjusting a size of a context window used for the generation step based on the assessed emotional volatility.
